@@ -1,6 +1,4 @@
-import React, {
-  Component
-} from "react";
+import React, { Component } from "react";
 import axios from "axios";
 
 class App extends Component {
@@ -15,7 +13,7 @@ class App extends Component {
   };
 
   // when component mounts, first thing it does is fetch all existing data in our db
-  // then we incorporate a polling logic so we can easily see if our db has 
+  // then we incorporate a polling logic so we can easily see if our db has
   // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
@@ -25,7 +23,7 @@ class App extends Component {
         intervalIsSet: interval
       });
     }
-  };
+  }
 
   // never let a process live forever
   // always kill a process everytime we are done using it
@@ -36,19 +34,19 @@ class App extends Component {
         intervalIsSet: null
       });
     }
-  };
+  }
 
-  // just a note, here, in the front end, we use the id key of our data object 
+  // just a note, here, in the front end, we use the id key of our data object
   // in order to identify which we want to Update or delete.
-  // for our back end, we use the object id assigned by MongoDB to modify 
+  // for our back end, we use the object id assigned by MongoDB to modify
   // data base entries
 
+  // our first get method that uses our backend api to
+  // fetch data from our data base
   getDataFromDb = () => {
     fetch("/api/getData")
       .then(data => data.json())
-      .then(res => this.setState({
-        data: res.data
-      }));
+      .then(res => this.setState({ data: res.data }));
   };
 
   // our put method that uses our backend api
@@ -66,12 +64,12 @@ class App extends Component {
     });
   };
 
-  // our delete method that uses our backend api 
+  // our delete method that uses our backend api
   // to remove existing database information
   deleteFromDb = idToDelete => {
     let objIdToDelete = null;
     this.state.data.forEach(dat => {
-      if (dat.id == idToDelete) {
+      if (dat.id === idToDelete) {
         objIdToDelete = dat._id;
       }
     });
@@ -88,7 +86,7 @@ class App extends Component {
   updateDb = (idToUpdate, updateToApply) => {
     let objIdToUpdate = null;
     this.state.data.forEach(dat => {
-      if (dat.id == idToUpdate) {
+      if (dat.id === idToUpdate) {
         objIdToUpdate = dat._id;
       }
     });
@@ -123,7 +121,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: "200px" }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
+          <button onClick={() => this.putDataToDb(this.state.message)}>
             ADD
           </button>
         </div>
@@ -134,7 +132,7 @@ class App extends Component {
             onChange={e => this.setState({ idToDelete: e.target.value })}
             placeholder="put id of item to delete here"
           />
-          <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
+          <button onClick={() => this.deleteFromDb(this.state.idToDelete)}>
             DELETE
           </button>
         </div>
@@ -153,7 +151,7 @@ class App extends Component {
           />
           <button
             onClick={() =>
-              this.updateDB(this.state.idToUpdate, this.state.updateToApply)
+              this.updateDb(this.state.idToUpdate, this.state.updateToApply)
             }
           >
             UPDATE
